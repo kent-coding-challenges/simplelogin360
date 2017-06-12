@@ -6,13 +6,46 @@
         <div class="col-xs-12 col-md-8 col-md-offset-2">
             <section class="card">
                 <div class="inner">
-                    <div class="card-heading">
-                        Users
+                    <nav class="card-heading navbar navbar-default">
+                        <div class="container-fluid">
+                            <!-- Nav Heading -->
+                            <div class="navbar-header">
+                                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                                    data-target="#user-index-nav-collapse" aria-expanded="false">
+                                    <span class="sr-only">Toggle navigation</span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </button>
 
-                        <a href="{{ route('users.create') }}" class="btn btn-sm btn-primary pull-right">
-                            New User
-                        </a>
-                    </div>
+                                <h4 class="navbar-brand">
+                                    Users
+                                </h4>
+                            </div>
+
+                            <!-- Collapsible Nav Elements -->
+                            <div class="collapse navbar-collapse" id="user-index-nav-collapse">
+                                <form role="form" action="{{ route('users.search') }}" method="get"
+                                    class="navbar-form navbar-left">
+                                    <div class="form-group">
+                                        <input type="search" id="searchQuery" name="q"
+                                            class="form-control" placeholder="Search">
+                                    </div>
+                                    <button type="submit" class="btn btn-sm btn-primary">
+                                        <i class="material-icons">search</i>
+                                    </button>
+                                </form>
+
+                                <ul class="nav navbar-nav navbar-right">
+                                    <li>
+                                        <a href="{{ route('users.create') }}">
+                                            New User
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div><!-- /.navbar-collapse -->
+                        </div><!-- /.container-fluid -->
+                    </nav>
 
                     <div class="card-body">
                         <table class="table table-striped table-hover">

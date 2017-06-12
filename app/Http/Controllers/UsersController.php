@@ -32,6 +32,34 @@ class UsersController extends Controller
     }
 
     /**
+     * Search through users' listing.
+     *
+     * @param  string $searchQuery
+     * @return \Illuminate\Http\Response
+     */
+    public function search(Request $request)
+    {
+        // Get search query and validate.
+        $q = $request['q'];
+        if ($q == null || trim($q) == "") {
+            return redirect()->route('users.index');
+        }
+
+        // Append/prepend query with % for LIKE comparison.
+        // Coding Test Note:
+        //  Laravel's db query builder will parameterize the query to safeguard from SQL injection.
+        $q = '%' . trim($q) . '%';
+
+        $users = DB::table('users')
+            ->where('first_name', 'like', $q)
+            ->orWhere('last_name', 'like', $q)
+            ->orWhere('email', 'like', $q)
+            ->paginate(10);
+
+        return view('users.index', compact('users'));
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
