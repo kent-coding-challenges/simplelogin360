@@ -2,8 +2,10 @@
 /node_modules
 /.sass-cache
 
+# Composer:
+composer.lock
+
 # Laravel defaults:
-/node_modules
 /public/hot
 /public/storage
 /storage/*.key
