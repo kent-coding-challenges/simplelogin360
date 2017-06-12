@@ -1,0 +1,55 @@
+/*
+    Cards:
+        Defines stylesheets for modern card boxes.
+
+    Dependencies:
+        _variables.scss
+        _mixin.scss
+
+    Usage:
+        <section class="card">
+            <div class="inner">
+                <div class="card-heading">...</div>
+                <div class="card-body">...</div>
+            </div>
+        </section>
+*/
+
+.card {
+    // Acts as outer spacing, transparent bg.
+    margin: 0;
+    padding: 15px;
+
+    // All card contents should go to > .inner html element.
+    > .inner {
+        @extend .z-depth-1;
+        background: #fff;
+    }
+}
+
+.card-heading, .card-body {
+    padding: 15px;
+}
+
+.card-heading {
+    font-size: 1.2em;
+    border-bottom: 1px solid map-get($colors, light-border);
+
+    // Card heading with .navbar class.
+    &.navbar {
+        .navbar-brand {
+            padding: 0;
+        }
+
+        .navbar-form {
+            margin: 0 0 0 10px;
+        }
+
+        ul.navbar-nav {
+            > li > a {
+                padding: 0;
+                font-size: 1em;
+            }
+        }
+    }
+}

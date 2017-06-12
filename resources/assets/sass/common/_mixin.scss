@@ -1,0 +1,112 @@
+/* 
+    Mixins:
+        Defines commonly used sass mixins for our app.
+ */
+
+@mixin prefix($property, $value) {
+  -webkit-#{$property}: #{$value};
+  -moz-#{$property}: #{$value};
+  -ms-#{$property}: #{$value};
+  -o-#{$property}: #{$value};
+  #{$property}: #{$value};
+}
+
+@mixin transform($args) {
+  @include prefix(transform, $args translateZ(0));
+}
+
+@mixin mobile-gpu-accelaration() {
+  @include prefix(transform, translateZ(0));
+}
+
+@mixin scale($width: 1.05, $height: 1.05) {
+  @include transform(scale($width, $height));
+}
+
+@mixin transition($args: all .3s ease-in-out) {
+  // https://chrissilich.com/blog/fix-css-animation-slow-or-choppy-in-mobile-browsers/
+  // @include mobile-gpu-accelaration();
+
+  // [Test]: experiment to disable all CSS tranistions on <= medium screens to improve performance on mobile/tablets.
+  @media(min-width: $postMedium) {
+    @include prefix(transition, $args);
+  }
+}
+
+@mixin animation($args) {
+  -webkit-animation: $args;
+  -moz-animation: $args;
+  -ms-animation: $args;
+  -o-animation: $args;
+  animation: $args;
+}
+
+@mixin display-flex {
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flex;
+    display: flex;
+    -webkit-flex-flow: row wrap;
+    -moz-flex-flow: row wrap;
+    -ms-flex-flow: row wrap;
+    flex-flow: row wrap;
+    -webkit-justify-content: left;
+    -moz-justify-content: left;
+    -ms-justify-content: left;
+    -webkit-justify-content: left;
+    justify-content: left;
+}
+
+@mixin grayscale_element($value) {
+    -webkit-filter: #{"grayscale(#{$value})"};
+    -moz-filter: #{"grayscale(#{$value})"};
+    filter:#{"grayscale(#{$value})"};
+}
+
+@mixin filter($args) {
+  -webkit-filter: $args;
+  -moz-filter: $args;
+  filter: $args;
+}
+
+@mixin box-shadow($args) {
+  -webkit-box-shadow: $args;
+  -moz-box-shadow: $args;
+  box-shadow: $args;
+}
+
+@mixin user-select($args) {
+  -webkit-user-select: $args;
+  -moz-user-select: $args;
+  -ms-user-select: $args;
+  user-select: $args;
+}
+
+@mixin ui-gradient($color1, $color2) {
+  background: $color1; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to left, $color1 , $color2); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to left, $color1 , $color2); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */  
+}
+
+@mixin box-shadow-predefined($top: -1px, $left: 1px, $blur: 3px, $color: #999, $inset: false) {
+  @if $inset {
+    -webkit-box-shadow:inset $top $left $blur $color;
+    -moz-box-shadow:inset $top $left $blur $color;
+    box-shadow:inset $top $left $blur $color;
+  } @else {
+    -webkit-box-shadow: $top $left $blur $color;
+    -moz-box-shadow: $top $left $blur $color;
+    box-shadow: $top $left $blur $color;
+  }
+}
+
+@mixin clearfix() {
+  &:before,
+  &:after {
+    content: " "; // 1
+    display: table; // 2
+  }
+  &:after {
+    clear: both;
+  }
+}

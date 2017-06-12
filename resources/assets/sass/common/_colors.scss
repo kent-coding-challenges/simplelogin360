@@ -1,0 +1,21 @@
+/*
+    Colors:
+        Defines reusable color CSS classes.
+
+    Usage:
+        <element class="bg-theme text-blue"></element>
+
+    Dependencies:
+        _variables.scss
+*/
+
+// Loop through each key value pairs in $colors map defined in _variables.scss.
+@each $key, $value in $colors {
+    .bg-#{$key} {
+        background: $value !important;
+    }
+    
+    .text-#{$key} {
+        color: $value !important;
+    }
+}

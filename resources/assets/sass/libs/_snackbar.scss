@@ -1,0 +1,89 @@
+/*
+    Snackbar.js
+    https://github.com/FezVrasta/snackbarjs
+
+    Dependencies:
+        _variables.scss
+        _mixin.scss
+*/
+
+// THEMES:
+.snackbar {
+    @extend .z-depth-3;
+
+    // Style
+    background-color: #fff;
+    color: map-get($colors, text-color) !important;
+    font-size: 14px;
+    border-radius: 0;
+
+    // Animation
+    height: 0;
+    -moz-transition: -moz-transform 0.2s ease-in-out, opacity 0.2s ease-in, height 0s linear 0.2s, padding 0s linear 0.2s, height 0s linear 0.2s;
+    -webkit-transition: -webkit-transform 0.2s ease-in-out, opacity 0.2s ease-in, height 0s linear 0.2s, padding 0s linear 0.2s, height 0s linear 0.2s;
+    transition: transform 0.2s ease-in-out, opacity 0.2s ease-in, height 0s linear 0.2s, padding 0s linear 0.2s, height 0s linear 0.2s;
+    -moz-transform: translateY(200%);
+    -webkit-transform: translateY(200%);
+    transform: translateY(200%);
+}
+
+.snackbar.snackbar-opened {
+    // Style
+    padding: 14px 15px;
+    margin-bottom: 20px;
+
+    // Animation
+    height: auto;
+    -moz-transition: -moz-transform 0.2s ease-in-out, opacity 0.2s ease-in, height 0s linear 0.2s;
+    -webkit-transition: -webkit-transform 0.2s ease-in-out, opacity 0.2s ease-in, height 0s linear 0.2s;
+    transition: transform 0.2s ease-in-out, opacity 0.2s ease-in, height 0s linear 0.2s, height 0s linear 0.2s;
+    -moz-transform: none;
+    -webkit-transform: none;
+    transform: none;
+}
+
+// Variations
+.snackbar.toast {
+    border-radius: 200px;
+}
+
+// CORE:
+
+#snackbar-container {
+    position: fixed;
+    left: 20px;
+    bottom: 0;
+    z-index: 99999;
+}
+.snackbar {
+    overflow: hidden;
+    clear: both;
+    min-width: 288px;
+    max-width: 568px;
+    cursor: pointer;
+    opacity: 0;
+}
+
+.snackbar.snackbar-opened {
+    height: auto;
+    opacity: 1;
+}
+
+@media (max-width: 767px) {
+    #snackbar-container {
+        left: 0px !important;
+        right: 0px;
+        width: 100%;
+        .snackbar {
+            min-width: 100%;
+        }
+        [class="snackbar snackbar-opened"] ~ .snackbar.toast {
+            margin-top: 20px;
+        }
+        [class="snackbar snackbar-opened"] {
+            border-radius: 0;
+            margin-bottom: 0;
+        }
+    }
+}
+

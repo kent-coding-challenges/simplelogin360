@@ -1,0 +1,48 @@
+/*
+    Icon Box Link:
+        Defines stylesheets to provide 'boxed' links which contains Icon and Text.
+
+    Usage / HTML Markup:
+        <a class="icon-box-link">
+            <i>...</i>
+            <span >...</span>
+        </a>
+*/
+
+.icon-box-link {
+    @include transition(border .3s);
+    @include user-select(none);
+    @extend .z-depth-1;
+    display: block;
+    margin: 0 auto;
+    clear: both;
+    padding: 25px 15px;
+    background: #fff;
+    color: $text-color;
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+
+    &:hover, &:active, &:focus {
+        color: $text-color;
+        text-decoration: none;
+        border-color: map-get($colors, primary);
+    }
+    
+    // Common: Icon and Text:
+    > i, > .text {
+        display: block;
+        width: 100%;
+        height: auto;
+        text-align: center;
+    }
+
+    > i {
+        margin: 0 0 5px 0;
+        font-size: 3em;
+        color: map-get($colors, primary);
+    }
+
+    > .text {
+        font-size: 1.2em;
+    }
+}

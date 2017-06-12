@@ -1,38 +1,73 @@
+/*
+    Variables:
+        Defines app variables.
 
-// Body
+    Dependencies:
+        None
+*/
+
+$colors: (
+  // App colors:
+  primary: #5BB33E,
+  primary-text: #fff,
+  light-border: #ccc,
+  text-color: #444,
+
+  // Base colors:
+  black: #222,
+  light-gray: #efefef,
+  gray: #aaa,
+  blue: #3097D1,
+  red: #bf5329,
+  green: #2ab27b,
+  yellow: #cbb956
+);
+
+$navbar: (
+    height: 50px,
+    background: #012D48,
+    color: #fff
+);
+
+/*
+    Default Variables:
+        The following variables are automatically created with Laravel project creation.
+*/
+
+// Body:
 $body-bg: #f5f8fa;
 
-// Borders
+// Borders:
 $laravel-border-color: darken($body-bg, 10%);
 $list-group-border: $laravel-border-color;
 $navbar-default-border: $laravel-border-color;
 $panel-default-border: $laravel-border-color;
 $panel-inner-border: $laravel-border-color;
 
-// Brands
-$brand-primary: #3097D1;
+// Brands:
+$brand-primary: map-get($colors, primary);
 $brand-info: #8eb4cb;
 $brand-success: #2ab27b;
 $brand-warning: #cbb956;
 $brand-danger: #bf5329;
 
-// Typography
+// Typography:
 $icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
 $font-family-sans-serif: "Raleway", sans-serif;
-$font-size-base: 14px;
+$font-size-base: 16px;
 $line-height-base: 1.6;
-$text-color: #636b6f;
+$text-color: #444;
 
-// Navbar
+// Navbar:
 $navbar-default-bg: #fff;
 
-// Buttons
+// Buttons:
 $btn-default-color: $text-color;
 
-// Inputs
+// Inputs:
 $input-border: lighten($text-color, 40%);
 $input-border-focus: lighten($brand-primary, 25%);
 $input-color-placeholder: lighten($text-color, 30%);
 
-// Panels
+// Panels:
 $panel-default-heading-bg: #fff;

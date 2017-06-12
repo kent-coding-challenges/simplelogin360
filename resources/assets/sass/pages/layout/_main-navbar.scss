@@ -1,0 +1,73 @@
+/*
+    Main Navbar:
+        Defines stylesheets for main top header.
+
+    Dependencies:
+        _variables.scss
+        _mixin.scss
+*/
+
+.main-navbar.navbar {
+    height: map-get($navbar, height);
+    background: map-get($navbar, background);
+    color: map-get($navbar, color);
+
+    .navbar-brand {
+        margin: 0 15px 0 0;
+        padding: 0 5px;
+        color: map-get($navbar, color);
+        font-size: 1em;
+
+        // Common: img and text:
+        > img, > .text {
+            display: block;
+            float: left;
+            line-height: map-get($navbar, height);
+        }
+
+        > img {
+            margin: 0 7px 0 0;
+            max-height: map-get($navbar, height) - 5px;
+        }
+    }
+
+    // All ul with links in it.
+    ul.navbar-nav {
+        > li {
+            > a {
+                @include transition(background .3s, color .3s);
+                @include user-select(none);
+                margin: 0;
+                padding: 0 15px;
+                color: map-get($navbar, color);
+                overflow: hidden;
+
+                &:hover {
+                    background: #fff;
+                    color: map-get($colors, text-color);
+                }
+
+                // Common: Icon & Text:
+                > i, > .text {
+                    display: block;
+                    float: left;
+                    line-height: $navbar-height;
+                }
+
+                > i {
+                    margin: 0 5px 0 0;
+                    font-size: 1.2em;
+
+                    &.arrow {
+                        margin: 0 0 0 5px;
+                        float: right;
+                    }
+                }
+
+                > .text {
+                    font-size: .9em;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,15 @@
+/*
+    Home Styles:
+        Defines stylesheets specifically relating to homepage.
+
+    Dependencies:
+        _variables.scss
+*/
+
+.home-group-heading {
+    display: block;
+    margin: 0 0 15px 0;
+    padding: 10px 0;
+    font-size: 1.5em;
+    border-bottom: 1px solid map-get($colors, light-border);
+}

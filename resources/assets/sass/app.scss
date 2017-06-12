@@ -1,9 +1,30 @@
+/*
+    Main App Stylesheet:
+        Bundles all related stylesheets used for SL360. 
 
-// Fonts
+    @ Copyright:
+        App: Simple Login 360
+        Author: Ken Timothy
+        GitHub: https://github.com/kendtimothy/simplelogin360
+*/
+
+// Fonts:
 @import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);
+@import url(https://fonts.googleapis.com/icon?family=Material+Icons);
 
 // Common:
-@import "common/_variables.scss";
+@import "common/variables.scss";
+@import "common/mixin.scss";
+@import "common/_shadows.scss";
 
 // Libs:
 @import "../../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap.scss";
+@import "libs/_snackbar.scss";
+
+// Page Components:
+@import "pages/layout/_main-navbar.scss";
+@import "pages/_home.scss";
+
+// App Components:
+@import "components/_card.scss";
+@import "components/_icon-box-link.scss";
