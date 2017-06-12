@@ -1,0 +1,16 @@
+# NPM modules and cache:
+/node_modules
+/.sass-cache
+
+# Laravel defaults:
+/node_modules
+/public/hot
+/public/storage
+/storage/*.key
+/vendor
+/.idea
+/.vagrant
+Homestead.json
+Homestead.yaml
+npm-debug.log
+.env
