@@ -13,9 +13,10 @@
 
     // Style
     background-color: #fff;
-    color: map-get($colors, text-color) !important;
-    font-size: 14px;
+    color: map-get($colors, text-color-dark) !important;
+    font-size: 1em;
     border-radius: 0;
+    border: 1px solid map-get($colors, border);
 
     // Animation
     height: 0;

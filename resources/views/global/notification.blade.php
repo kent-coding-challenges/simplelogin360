@@ -1,12 +1,14 @@
 @if (Session::has('success'))
     <script>
-        console.log('success');
-        var options =  {
-            content: "{{ Session::get('success') }}",
-            style: "snackbar",
-            timeout: 5000
-        }
+        // Show notification from Session('success') on page load.
+        $(function() {
+            var options =  {
+                content: "{{ Session::get('success') }}",
+                style: "snackbar",
+                timeout: 500000
+            }
 
-        $.snackbar(options);
+            $.snackbar(options);
+        });
     </script>
 @endif
