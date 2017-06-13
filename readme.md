@@ -1,51 +1,72 @@
-<p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
+<p align="center"><img src="http://simplelogin360.kendtimothy.com/logo.jpg" height="60"></p>
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+## About Simple Login 360
 
-## About Laravel
+A coding test challenge which aims to implement Login and User Management CRUD modules using PHP with Laravel Framework.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as:
+## Live Demo
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+You can access the [live demo here](http://simplelogin360.kendtimothy.com).
 
-Laravel is accessible, yet powerful, providing tools needed for large, robust applications. A superb combination of simplicity, elegance, and innovation give you tools you need to build any application with which you are tasked.
+## Technology
 
-## Learning Laravel
+- PHP 7.1 with Laravel 5.4
+- MySQL for database storage
+- Redis for auth session storage (configurable)
+- Web Server: Apache
+- Demo Server: Ubuntu 16.04 (.t2 micro instance on AWS)
 
-Laravel has the most extensive and thorough documentation and video tutorial library of any modern web application framework. The [Laravel documentation](https://laravel.com/docs) is thorough, complete, and makes it a breeze to get started learning the framework.
+## Data Access Layer (DAL)
 
-If you're not in the mood to read, [Laracasts](https://laracasts.com) contains over 900 video tutorials on a range of topics including Laravel, modern PHP, unit testing, JavaScript, and more. Boost the skill level of yourself and your entire team by digging into our comprehensive video library.
+Data access is implemented with the help of
+<a href="https://laravel.com/docs/5.4/eloquent">Eloquent</a>,
+an ORM framework that enables us to interact with our database objects using PHP Models and Methods instead of raw SQL queries.
 
-## Laravel Sponsors
+To prevent our controllers from being tightly coupled to the data access layer, we create a repository which handles our application's database interaction with Eloquent. Each controller now communicates with repositories to read / write data by having the relevant repository registered with Dependency Injection. In our project, we have UsersController, which communicates with our DbUserRepository to read, create, update, and delete user data.
 
-We would like to extend our thanks to the following sponsors for helping fund on-going Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](http://patreon.com/taylorotwell):
+### Interface for User Repository
 
-- **[Vehikl](http://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- **[Styde](https://styde.net)**
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
+Following are the interface contracts registered for our User Repository.
 
-## Contributing
+```php
+interface UserRepositoryInterface {
+    public function count();
+    public function getAll();
+    public function search($query);
+    public function find($id);
+    public function store($user);
+    public function update($id, $user);
+    public function updatePassword($id, $old_password, $new_password);
+    public function destroy($id);
+}
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](http://laravel.com/docs/contributions).
+## Authentication Layer
 
-## Security Vulnerabilities
+Authentication layer is done using standard Laravel Auth mechanism,
+allowing users to log in with email and password based authentication.
+For secure password storage, all passwords are hashed using 
+<a href="https://laravel.com/docs/5.4/hashing">bcrypt algorithm</a>.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+### User Session Handling
 
-## License
+Following are the settings configured in the demo server.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
+- Session is configured on local Redis server (configurable from the .env file)
+- Default timeout: 120 minutes
+
+## Testing Strategy
+
+We will adopt two test strategies for this project: Unit and Feature (Integration) Tests. Each communication to database is wrapper inside its own transaction to ensure that one test case doesn't affect the others.
+
+### Unit Test
+
+#### /tests/Unit/DbUserRepositoryTest.php
+
+Unit tests are written for the User Repository. Each test case aims to ensure that the methods within our repository do what it's stupposed to do - retrieving, searching, storing, updating, and deleting data.
+
+### Feature / Integration Test
+
+#### tests/Feature/AuthenticationTest.php
+
+Additionally, we write Feature Test to validate our Authentication layer; ensuring authenticated users are redirected to login page and authenticated (logged in) users are able to access the application.

@@ -1,6 +1,7 @@
 # NPM modules and cache:
 /node_modules
 /.sass-cache
+/.vscode
 
 # Composer:
 composer.lock
