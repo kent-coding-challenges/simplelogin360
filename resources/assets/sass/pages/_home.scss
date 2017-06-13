@@ -6,6 +6,16 @@
         _variables.scss
 */
 
+.home-group {
+    margin: 0 0 15px 0;
+
+    // Reset:
+    .card, ul {
+        margin: 0;
+        padding: 0;
+    }
+}
+
 .home-group-heading {
     display: block;
     margin: 0 0 15px 0;

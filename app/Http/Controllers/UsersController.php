@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\Repositories\UserRepositoryInterface;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -13,11 +14,13 @@ class UsersController extends Controller
     /**
      * Create a new controller instance.
      *
+     * @return \App\Repositories\UserRepositoryInterface $repository (Dependency Injection)
      * @return void
      */
-    public function __construct()
+	public function __construct(UserRepositoryInterface $repository)
     {
         $this->middleware('auth');
+		$this->repository = $repository;
     }
 
     /**
@@ -27,36 +30,27 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $users = DB::table('users')->paginate(10);
+        $users = $this->repository->getAll();
         return view('users.index', compact('users'));
     }
 
     /**
      * Search through users' listing.
      *
-     * @param  string $searchQuery
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function search(Request $request)
     {
-        // Get search query and validate.
-        $q = $request['q'];
-        if ($q == null || trim($q) == "") {
+        // Get search query and validate $query is not empty.
+        $query = $request['q'];
+        if ($query == null) {
             return redirect()->route('users.index');
         }
 
-        // Append/prepend query with % for LIKE comparison.
-        // Coding Test Note:
-        //  Laravel's db query builder will parameterize the query to safeguard from SQL injection.
-        $q = '%' . trim($q) . '%';
-
-        $users = DB::table('users')
-            ->where('first_name', 'like', $q)
-            ->orWhere('last_name', 'like', $q)
-            ->orWhere('email', 'like', $q)
-            ->paginate(10);
-
-        return view('users.index', compact('users'));
+        $users = $this->repository->search($query);
+        return view('users.index', compact('users'))
+            ->with('query', $query);
     }
 
     /**
@@ -84,16 +78,25 @@ class UsersController extends Controller
             'password' => 'required|string|min:6|confirmed'
         ]);
 
-        // Create new user and save to db.
         $user = new User();
         $user->first_name = $request->first_name;
         $user->last_name = $request->last_name;
         $user->email = $request->email;
-        $user->password = bcrypt($request->password);
-        $user->save();
+        $user->password = $request->password;
+        $user = $this->repository->store($user);
+
+        // Get feedback to pass back the to the view.
+        if ($user) {
+            $feedback_type = 'success';
+            $feedback_message = 'Successfully created a new user.';
+        } else {
+            $feedback_type = 'error';
+            $feedback_message = 'Unable to create a new user.';
+        }
 
         return redirect()->route('users.index')
-            ->with('success', 'Successfully created a new user.');
+            ->with('feedback_type', $feedback_type)
+            ->with('feedback_message', $feedback_message);
     }
 
     /**
@@ -102,8 +105,13 @@ class UsersController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
+    public function show($id)
     {
+        $user = $this->repository->find($id);
+        if (!$user) {
+            abort(404);
+        }
+
         return view('users.show', ['user' => $user]);
     }
 
@@ -113,9 +121,14 @@ class UsersController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user)
+    public function edit($id)
     {
-        return view('users.edit', compact('user'));
+        $user = $this->repository->find($id);
+        if (!$user) {
+            abort(404);
+        }
+
+        return view('users.edit', ['user' => $user]);
     }
 
     /**
@@ -125,23 +138,34 @@ class UsersController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, $id)
     {
         // Validate incoming data, ignoring current user for email unique constraint.
         $this->validate($request, [
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id
+            'email' => 'required|string|email|max:255|unique:users,email,' . $id
         ]);
 
         // Update user details and save to db.
+        $user = new User();
         $user->first_name = $request->first_name;
         $user->last_name = $request->last_name;
         $user->email = $request->email;
-        $user->save();
+        $user = $this->repository->update($id, $user);
+
+        // Get feedback to pass back the to the view.
+        if ($user) {
+            $feedback_type = 'success';
+            $feedback_message = 'Successfully updated user details.';
+        } else {
+            $feedback_type = 'error';
+            $feedback_message = 'Unable to update user details.';
+        }
 
         return redirect()->route('users.index')
-            ->with('success', 'Successfully updated user details.');
+            ->with('feedback_type', $feedback_type)
+            ->with('feedback_message', $feedback_message);
     }
 
     /**
@@ -150,14 +174,25 @@ class UsersController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy($id)
     {
-        if (Auth::user()->id == $user->id) {
+        if (Auth::user()->id == $id) {
             abort(403, 'You are not allowed to delete your own user account.');
         }
 
-        $user->delete();
+        $is_success = $this->repository->destroy($id);
+
+        // Get feedback to pass back the to the view.
+        if ($is_success) {
+            $feedback_type = 'success';
+            $feedback_message = 'Successfully deleted user.';
+        } else {
+            $feedback_type = 'error';
+            $feedback_message = 'Unable to delete user.';
+        }
+
         return redirect()->route('users.index')
-            ->with('success', 'User has been successfully deleted.');
+            ->with('feedback_type', $feedback_type)
+            ->with('feedback_message', $feedback_message);
     }
 }

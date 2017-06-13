@@ -10,6 +10,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class AuthenticationTest extends TestCase
 {
+    // Ensure each test is wrapped in it's own transaction.
     use DatabaseTransactions;
     
     /**
@@ -21,7 +22,7 @@ class AuthenticationTest extends TestCase
     {
         // Without any user logged in, homepage should redirect to login route.
         $response = $this->get('/');
-        $response->assertRedirect('login');	
+        $response->assertRedirect('login');
     }
 
     /**

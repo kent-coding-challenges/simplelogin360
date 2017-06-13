@@ -59,6 +59,14 @@
                                     </span>
                                 </a>
                             </li>
+                            <li>
+                                <a href="https://github.com/kendtimothy/simplelogin360" target="_blank">
+                                    <i class="material-icons">code</i>
+                                    <span class="text">
+                                        View in GitHub
+                                    </span>
+                                </a>
+                            </li>
                         </ul>
                     @endif
 

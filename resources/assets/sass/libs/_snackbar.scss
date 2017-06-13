@@ -26,6 +26,11 @@
     -moz-transform: translateY(200%);
     -webkit-transform: translateY(200%);
     transform: translateY(200%);
+
+    &.error {
+        background-color: map-get($colors, red);
+        color: #fff !important;
+    }
 }
 
 .snackbar.snackbar-opened {

@@ -23,6 +23,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        // Register DI for UserRepositoryInterface.
+		$this->app->bind('App\Repositories\UserRepositoryInterface', 'App\Repositories\DbUserRepository');
     }
 }

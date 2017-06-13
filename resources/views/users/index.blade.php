@@ -28,7 +28,7 @@
                                 <form role="form" action="{{ route('users.search') }}" method="get"
                                     class="navbar-form navbar-left">
                                     <div class="form-group">
-                                        <input type="search" id="searchQuery" name="q"
+                                        <input type="search" id="searchQuery" name="q" value="{{ $query ?? "" }}"
                                             class="form-control" placeholder="Search">
                                     </div>
                                     <button type="submit" class="btn btn-sm btn-primary">
@@ -79,11 +79,6 @@
                                                     <li>
                                                         <a href="{{ route('users.edit', $user->id) }}">
                                                             Edit Details
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#">
-                                                            Change Password
                                                         </a>
                                                     </li>
                                                     @if ($user-> id != Auth::user()->id):
