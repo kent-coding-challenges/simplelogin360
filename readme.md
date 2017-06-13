@@ -67,6 +67,6 @@ Unit tests are written for the User Repository. Each test case aims to ensure th
 
 ### Feature / Integration Test
 
-#### tests/Feature/AuthenticationTest.php
+#### /tests/Feature/AuthenticationTest.php
 
 Additionally, we write Feature Test to validate our Authentication layer; ensuring authenticated users are redirected to login page and authenticated (logged in) users are able to access the application.
