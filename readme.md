@@ -1,4 +1,4 @@
-<p align="center"><img src="http://simplelogin360.kendtimothy.com/logo.jpg" height="60"></p>
+<p><img src="http://simplelogin360.kendtimothy.com/logo.jpg" height="60"></p>
 
 ## About Simple Login 360
 
